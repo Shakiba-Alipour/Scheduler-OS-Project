@@ -1,22 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package scheduler;
 
-/**
- *
- * @author Shakiba
- */
 public class Task {
 
+    private final String name;
     private final char type; //X or Y or Z
     private int priority;
     private int executionTime; //needed time to completely execute the task
     private char[] resources; //needed resources for considered task
+    private String state; //running, waiting or ready
+    private int onCPUTime; //the time that the task is on cpu 
 
-    public Task(char type, int executionTime) {
+    public Task(String name, char type, int executionTime) {
+        this.name = name;
         this.type = type;
         this.executionTime = executionTime;
         this.setPriority();
@@ -47,6 +42,14 @@ public class Task {
         }
     }
 
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
     public char getType() {
         return this.type;
     }
@@ -61,5 +64,13 @@ public class Task {
 
     public char[] getResources() {
         return this.resources;
+    }
+
+    public String getState() {
+        return this.state;
+    }
+
+    public int getOnCPUTime() {
+        return this.onCPUTime;
     }
 }
