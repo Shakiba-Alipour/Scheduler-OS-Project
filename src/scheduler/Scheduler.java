@@ -6,11 +6,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Scheduler {
 
     public static int numberOfTotalTasks;
     public static HashMap tasks;
+    public static Queue readyQueue;
 
     public static void main(String[] args) {
         File file = new File("input.txt");
@@ -33,6 +36,9 @@ public class Scheduler {
                 tasks.putIfAbsent(split[0], task);
                 i++;
             }
+
+            //fill the ready queue based on desired algorithm
+            readyQueue = new LinkedList<>();
 
         } catch (FileNotFoundException ex) {
             System.out.println("File is not found\n" + ex.getMessage());
