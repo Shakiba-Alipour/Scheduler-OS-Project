@@ -26,10 +26,12 @@ public class Scheduler {
             numberOfTotalTasks = Integer.valueOf(str);
 
             //read line 2 and so on
-            while ((str = br.readLine()) != null) {
+            int i = 0;
+            while ((str = br.readLine()) != null && i < numberOfTotalTasks) {
                 String[] split = str.split(" ");
                 Task task = new Task(split[0], split[1].charAt(0), Integer.valueOf(split[2]));
                 tasks.putIfAbsent(split[0], task);
+                i++;
             }
 
         } catch (FileNotFoundException ex) {
