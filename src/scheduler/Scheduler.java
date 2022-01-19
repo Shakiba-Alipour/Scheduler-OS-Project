@@ -57,8 +57,9 @@ public class Scheduler {
             else {
                 //find proper place for new process
                 int i = 0;
-                for (; ((Task) ready.get(i)).getExecutionTime()
-                        < ((Task) tasks.get(key)).getExecutionTime(); i++) {
+                for (; (((Task) ready.get(i)).getExecutionTime()
+                        < ((Task) tasks.get(key)).getExecutionTime())
+                        && (i < ready.size()); i++) {
                 }
                 //set process in proper place
                 ready.add(i - 1, tasks.get(key));
