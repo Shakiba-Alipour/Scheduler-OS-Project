@@ -13,7 +13,7 @@ public class Scheduler {
 
     public static int numberOfTotalTasks;
     public static HashMap tasks;
-    public static Queue readyQueue;
+    public static LinkedList readyQueue;
 
     public static void main(String[] args) {
         File file = new File("input.txt");
@@ -47,4 +47,23 @@ public class Scheduler {
         }
     }
 
+    public static LinkedList SJF() {
+        LinkedList ready = new LinkedList<>();
+        for (Object key : tasks.keySet()) {
+            //if first process enters the ready queue
+            if (ready.isEmpty()) {
+                ready.add(tasks.get(key));
+            } //if ready queue is not empty
+            else {
+                //find proper place for new process
+                int i = 0;
+                for (; ((Task) ready.get(i)).getExecutionTime()
+                        < ((Task) tasks.get(key)).getExecutionTime(); i++) {
+                }
+                //set process in proper place
+                ready.add(i - 1, tasks.get(key));
+            }
+        }
+        return ready;
+    }
 }
