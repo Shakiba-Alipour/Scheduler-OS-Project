@@ -6,7 +6,6 @@ public class Task {
     private final char type; //X or Y or Z
     private int priority;
     private int executionTime; //needed time to completely execute the task
-    private char[] resources; //needed resources for considered task
     private String state; //running, waiting or ready
     private int onCPUTime; //the time that the task is on cpu 
 
@@ -15,7 +14,6 @@ public class Task {
         this.type = type;
         this.executionTime = executionTime;
         this.setPriority();
-        this.setResources();
     }
 
     private void setPriority() {
@@ -25,20 +23,6 @@ public class Task {
             this.priority = 2;
         } else if (this.type == 'Z') {
             this.priority = 1;
-        }
-    }
-
-    private void setResources() {
-        this.resources = new char[2];
-        if (this.type == 'X') {
-            this.resources[0] = 'A';
-            this.resources[1] = 'B';
-        } else if (this.type == 'Y') {
-            this.resources[0] = 'B';
-            this.resources[1] = 'C';
-        } else if (this.type == 'Z') {
-            this.resources[0] = 'A';
-            this.resources[1] = 'C';
         }
     }
 
@@ -60,10 +44,6 @@ public class Task {
 
     public int getExecutionTime() {
         return this.executionTime;
-    }
-
-    public char[] getResources() {
-        return this.resources;
     }
 
     public String getState() {

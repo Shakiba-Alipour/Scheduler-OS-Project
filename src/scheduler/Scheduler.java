@@ -9,7 +9,6 @@ import java.util.HashMap;
 
 public class Scheduler {
 
-    public static int A, B, C;
     public static int numberOfTotalTasks;
     public static HashMap tasks;
 
@@ -24,18 +23,11 @@ public class Scheduler {
 
             //read line 1
             String str = br.readLine();
-            String[] split = str.split(" ");
-            A = Integer.valueOf(split[0]);
-            B = Integer.valueOf(split[1]);
-            C = Integer.valueOf(split[2]);
-
-            //read line 2
-            str = br.readLine();
             numberOfTotalTasks = Integer.valueOf(str);
 
-            //read line 3 and so on
+            //read line 2 and so on
             while ((str = br.readLine()) != null) {
-                split = str.split(" ");
+                String[] split = str.split(" ");
                 Task task = new Task(split[0], split[1].charAt(0), Integer.valueOf(split[2]));
                 tasks.putIfAbsent(split[0], task);
             }
