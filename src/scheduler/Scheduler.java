@@ -7,14 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class Scheduler {
-
+    
     public static int numberOfTotalTasks;
     public static HashMap tasks;
     public static LinkedList readyQueue;
-
+    
     public static void main(String[] args) {
         File file = new File("input.txt");
         if (!file.exists()) {
@@ -39,14 +38,14 @@ public class Scheduler {
 
             //fill the ready queue based on desired algorithm
             readyQueue = new LinkedList<>();
-
+            
         } catch (FileNotFoundException ex) {
             System.out.println("File is not found\n" + ex.getMessage());
         } catch (IOException ex) {
             System.out.println("IO Exception\n" + ex.getMessage());
         }
     }
-
+    
     public static LinkedList SJF() {
         LinkedList ready = new LinkedList<>();
         for (Object key : tasks.keySet()) {
@@ -64,6 +63,14 @@ public class Scheduler {
                 //set process in proper place
                 ready.add(i - 1, tasks.get(key));
             }
+        }
+        return ready;
+    }
+    
+    public static LinkedList FCFS() {
+        LinkedList ready = new LinkedList<>();
+        for (Object key : tasks.keySet()) {
+            ready.add(tasks.get(key));
         }
         return ready;
     }
