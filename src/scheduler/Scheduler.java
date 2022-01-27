@@ -97,4 +97,16 @@ public class Scheduler {
         }
         return ready;
     }
+
+    public static LinkedList<Task> HRRN() {
+        LinkedList<Task> ready = new LinkedList<>();
+        //first column: process index in hash map
+        //second column: response ratio
+        int[][] responseRatio = new int[tasks.size()][2];
+        for(int i=0;i<tasks.size();i++){
+            //ratio = (waiting time / execution time) + 1
+            int ratio;
+        }
+        return ready;
+    }
 }
