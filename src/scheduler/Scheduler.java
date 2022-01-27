@@ -65,8 +65,9 @@ public class Scheduler {
             // print current processes in the ready queue
             System.out.println("Ready Queue:");
             for (int idx = 0; idx < readyQueue.size(); idx++) {
-                System.out.print(((Task) readyQueue.get(idx)).getName());
+                System.out.print(((Task) readyQueue.get(idx)).getName() + "   ");
             }
+            System.out.println("\n ----------------------------------------");
         }
     }
 
