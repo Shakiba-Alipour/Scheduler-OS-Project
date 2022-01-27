@@ -1,7 +1,7 @@
 # Scheduler-OS-Project
 Designing a scheduler for a single processor system
 
-# Scheculing Algorithms:
+# Scheculing Algorithms
 
 ● Shortest Job First
 
