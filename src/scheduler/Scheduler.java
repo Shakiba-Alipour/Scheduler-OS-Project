@@ -75,4 +75,26 @@ public class Scheduler {
         }
         return ready;
     }
+
+    public static LinkedList<Task> RR() {
+        LinkedList<Task> ready = new LinkedList<>();
+        int level = 1; //to check if a process is completed or not
+        while (true) {
+            int completed = 0;
+            for (Object key : tasks.keySet()) {
+                if (((Task) tasks.get(key)).getExecutionTime() - level > 0) {
+                    ready.add(tasks.get(key));
+                } else {
+                    completed++;
+                }
+            }
+            //if all of processes are completed
+            if (completed == tasks.size()) {
+                break;
+            }
+            //if some of processes are not completed yet
+            level++;
+        }
+        return ready;
+    }
 }
