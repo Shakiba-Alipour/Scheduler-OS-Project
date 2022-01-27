@@ -5,13 +5,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Scheduler {
 
     public static int numberOfTotalTasks;
-    public static HashMap<String, Task> tasks;
+    public static ArrayList<Task> tasks;
     public static LinkedList<Task> readyQueue;
 
     public static void main(String[] args) {
@@ -21,7 +21,7 @@ public class Scheduler {
         }
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
-            tasks = new HashMap<String, Task>();
+            tasks = new ArrayList<Task>();
 
             // read line 1
             String str = br.readLine();
@@ -32,7 +32,7 @@ public class Scheduler {
             while ((str = br.readLine()) != null && i < numberOfTotalTasks) {
                 String[] split = str.split(" ");
                 Task task = new Task(split[0], Integer.valueOf(split[1]));
-                tasks.putIfAbsent(split[0], task);
+                tasks.add(task);
                 i++;
             }
 
@@ -45,8 +45,8 @@ public class Scheduler {
             printQueue("SJF");
             readyQueue = RR();
             printQueue("RR");
-            readyQueue = HRRN();
-            printQueue("HRRN");
+            // readyQueue = HRRN();
+            // printQueue("HRRN");
 
         } catch (FileNotFoundException ex) {
             System.out.println("File is not found\n" + ex.getMessage());
@@ -74,21 +74,21 @@ public class Scheduler {
 
     public static LinkedList<Task> SJF() {
         LinkedList<Task> ready = new LinkedList<Task>();
-        for (Object key : tasks.keySet()) {
+        for (int i = 0; i < tasks.size(); i++) {
             // if first process enters the ready queue
             if (ready.isEmpty()) {
-                tasks.get(key).setState("ready");
-                ready.add(tasks.get(key));
+                tasks.get(i).setState("ready");
+                ready.add(tasks.get(i));
             } // if ready queue is not empty
             else {
                 // find proper place for new process
-                int i = 0;
-                for (; (((Task) ready.get(i)).getExecutionTime() < ((Task) tasks.get(key)).getExecutionTime())
-                        && (i < ready.size()); i++) {
+                int idx = 0;
+                for (; (((Task) ready.get(i)).getExecutionTime() < ((Task) tasks.get(i)).getExecutionTime())
+                        && (idx < ready.size()); idx++) {
                 }
                 // set process in proper place
-                tasks.get(key).setState("ready");
-                ready.add(i - 1, tasks.get(key));
+                tasks.get(i).setState("ready");
+                ready.add(idx - 1, tasks.get(i));
             }
         }
         return ready;
@@ -96,9 +96,9 @@ public class Scheduler {
 
     public static LinkedList<Task> FCFS() {
         LinkedList<Task> ready = new LinkedList<Task>();
-        for (Object key : tasks.keySet()) {
-            tasks.get(key).setState("ready");
-            ready.add(tasks.get(key));
+        for (int i = 0; i < tasks.size(); i++) {
+            tasks.get(i).setState("ready");
+            ready.add(tasks.get(i));
         }
         return ready;
     }
@@ -108,10 +108,10 @@ public class Scheduler {
         int level = 1; // to check if a process is completed or not
         while (true) {
             int completed = 0;
-            for (Object key : tasks.keySet()) {
-                if (((Task) tasks.get(key)).getExecutionTime() - level > 0) {
-                    tasks.get(key).setState("ready");
-                    ready.add(tasks.get(key));
+            for (int i = 0; i < tasks.size(); i++) {
+                if (((Task) tasks.get(i)).getExecutionTime() - level > 0) {
+                    tasks.get(i).setState("ready");
+                    ready.add(tasks.get(i));
                 } else {
                     completed++;
                 }
@@ -126,15 +126,17 @@ public class Scheduler {
         return ready;
     }
 
-    public static LinkedList<Task> HRRN() {
-        LinkedList<Task> ready = new LinkedList<>();
-        // first column: process index in hash map
-        // second column: response ratio
-        int[][] responseRatio = new int[tasks.size()][2];
-        for (int i = 0; i < tasks.size(); i++) {
-            // ratio = (waiting time / execution time) + 1
-            int ratio;
-        }
-        return ready;
-    }
+    /*
+     * public static LinkedList<Task> HRRN() {
+     * LinkedList<Task> ready = new LinkedList<>();
+     * // first column: process index in hash map
+     * // second column: response ratio
+     * int[][] responseRatio = new int[tasks.size()][2];
+     * for (int i = 0; i < tasks.size(); i++) {
+     * // ratio = (waiting time / execution time) + 1
+     * int ratio;
+     * }
+     * return ready;
+     * }
+     */
 }
