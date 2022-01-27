@@ -38,14 +38,14 @@ public class Scheduler {
             br.close();
 
             // fill the ready queue based on desired algorithm and print it
-            // readyQueue = FCFS(tasks);
-            // printQueue("FCFS");
+            readyQueue = FCFS(tasks);
+            printQueue("FCFS");
             readyQueue = SJF(tasks);
             printQueue("SJF");
-            // readyQueue = RR(tasks);
-            // printQueue("RR");
-            // readyQueue = HRRN(tasks);
-            // printQueue("HRRN");
+            readyQueue = RR(tasks);
+            printQueue("RR");
+            readyQueue = HRRN(tasks);
+            printQueue("HRRN");
 
         } catch (FileNotFoundException ex) {
             System.out.println("File is not found\n" + ex.getMessage());
@@ -124,17 +124,36 @@ public class Scheduler {
         return ready;
     }
 
-    /*
-     * public static LinkedList<Task> HRRN(ArrayList<Task> tasks) {
-     * LinkedList<Task> ready = new LinkedList<>();
-     * // first column: process index in hash map
-     * // second column: response ratio
-     * int[][] responseRatio = new int[tasks.size()][2];
-     * for (int i = 0; i < tasks.size(); i++) {
-     * // ratio = (waiting time / execution time) + 1
-     * int ratio;
-     * }
-     * return ready;
-     * }
-     */
+    public static LinkedList<Task> HRRN(ArrayList<Task> tasks) {
+        LinkedList<Task> ready = new LinkedList<>();
+        int[] responseRatio = new int[tasks.size()];
+        int[] waitingTime = new int[tasks.size()];
+        // arrival time for each process = its index in tasks array list
+        int sumBurstTime = 0;
+        // find waiting time
+        waitingTime[0] = 0;
+        for (int i = 1; i < tasks.size(); i++) {
+            // arrival time for each process = its index in tasks array list
+            sumBurstTime += tasks.get(i - 1).getExecutionTime();
+            waitingTime[i] = sumBurstTime - i;
+        }
+        // find response ratio and fill ready queue
+        for (int i = 0; i < tasks.size(); i++) {
+            // ratio = (waiting time / execution time) + 1
+            responseRatio[i] = (waitingTime[i] / tasks.get(i).getExecutionTime()) + 1;
+            ready.add(tasks.get(i));
+        }
+        // sort ready queue
+        for (int i = 0; i < ready.size() - 1; i++) {
+            for (int j = 0; j < ready.size() - i - 1; j++) {
+                if (responseRatio[j] > responseRatio[j + 1]) {
+                    // set process in proper place
+                    Task temp = ready.get(j);
+                    ready.set(j, ready.get(j + 1));
+                    ready.set(j + 1, temp);
+                }
+            }
+        }
+        return ready;
+    }
 }
