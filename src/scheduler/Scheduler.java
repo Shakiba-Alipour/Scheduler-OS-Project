@@ -67,8 +67,9 @@ public class Scheduler {
             for (int idx = 0; idx < readyQueue.size(); idx++) {
                 System.out.print(((Task) readyQueue.get(idx)).getName() + "   ");
             }
-            System.out.println("\n ----------------------------------------");
+            System.out.println();
         }
+        System.out.println("------------------------------------------------");
     }
 
     public static LinkedList<Task> SJF() {
