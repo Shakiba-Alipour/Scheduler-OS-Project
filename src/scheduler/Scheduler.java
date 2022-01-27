@@ -31,7 +31,7 @@ public class Scheduler {
             int i = 0;
             while ((str = br.readLine()) != null && i < numberOfTotalTasks) {
                 String[] split = str.split(" ");
-                Task task = new Task(split[0], split[1].charAt(0), Integer.valueOf(split[2]));
+                Task task = new Task(split[0], Integer.valueOf(split[1]));
                 tasks.putIfAbsent(split[0], task);
                 i++;
             }

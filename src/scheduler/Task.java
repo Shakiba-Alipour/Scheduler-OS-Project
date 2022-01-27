@@ -3,27 +3,13 @@ package scheduler;
 public class Task {
 
     private final String name;
-    private final char type; //X or Y or Z
-    private int priority;
-    private int executionTime; //needed time to completely execute the task
-    private String state; //running or ready
-    private int onCPUTime; //the time that the task is on cpu 
+    private int executionTime; // needed time to completely execute the task
+    private String state; // running or ready
+    private int onCPUTime; // the time that the task is on cpu
 
-    public Task(String name, char type, int executionTime) {
+    public Task(String name, int executionTime) {
         this.name = name;
-        this.type = type;
         this.executionTime = executionTime;
-        this.setPriority();
-    }
-
-    private void setPriority() {
-        if (this.type == 'X') {
-            this.priority = 3;
-        } else if (this.type == 'Y') {
-            this.priority = 2;
-        } else if (this.type == 'Z') {
-            this.priority = 1;
-        }
     }
 
     public void setState(String state) {
@@ -32,14 +18,6 @@ public class Task {
 
     public String getName() {
         return this.name;
-    }
-
-    public char getType() {
-        return this.type;
-    }
-
-    public int getPriority() {
-        return this.priority;
     }
 
     public int getExecutionTime() {
