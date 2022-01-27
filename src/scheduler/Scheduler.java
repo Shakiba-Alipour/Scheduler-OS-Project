@@ -11,7 +11,6 @@ import java.util.LinkedList;
 public class Scheduler {
 
     public static int numberOfTotalTasks;
-    public static ArrayList<Task> tasks;
     public static LinkedList<Task> readyQueue;
 
     public static void main(String[] args) {
@@ -21,7 +20,7 @@ public class Scheduler {
         }
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
-            tasks = new ArrayList<Task>();
+            ArrayList<Task> tasks = new ArrayList<Task>();
 
             // read line 1
             String str = br.readLine();
@@ -39,13 +38,13 @@ public class Scheduler {
             br.close();
 
             // fill the ready queue based on desired algorithm and print it
-            readyQueue = FCFS();
-            printQueue("FCFS");
-            readyQueue = SJF();
+            // readyQueue = FCFS(tasks);
+            // printQueue("FCFS");
+            readyQueue = SJF(tasks);
             printQueue("SJF");
-            readyQueue = RR();
-            printQueue("RR");
-            // readyQueue = HRRN();
+            // readyQueue = RR(tasks);
+            // printQueue("RR");
+            // readyQueue = HRRN(tasks);
             // printQueue("HRRN");
 
         } catch (FileNotFoundException ex) {
@@ -72,29 +71,28 @@ public class Scheduler {
         System.out.println("------------------------------------------------");
     }
 
-    public static LinkedList<Task> SJF() {
+    public static LinkedList<Task> SJF(ArrayList<Task> tasks) {
         LinkedList<Task> ready = new LinkedList<Task>();
+        // processes enter the ready queue
         for (int i = 0; i < tasks.size(); i++) {
-            // if first process enters the ready queue
-            if (ready.isEmpty()) {
-                tasks.get(i).setState("ready");
-                ready.add(tasks.get(i));
-            } // if ready queue is not empty
-            else {
-                // find proper place for new process
-                int idx = 0;
-                for (; (((Task) ready.get(i)).getExecutionTime() < ((Task) tasks.get(i)).getExecutionTime())
-                        && (idx < ready.size()); idx++) {
+            tasks.get(i).setState("ready");
+            ready.add(tasks.get(i));
+        }
+        // find proper place for each process
+        for (int i = 0; i < ready.size() - 1; i++) {
+            for (int j = 0; j < ready.size() - i - 1; j++) {
+                if (ready.get(j).getExecutionTime() > ready.get(j + 1).getExecutionTime()) {
+                    // set process in proper place
+                    Task temp = ready.get(j);
+                    ready.set(j, ready.get(j + 1));
+                    ready.set(j + 1, temp);
                 }
-                // set process in proper place
-                tasks.get(i).setState("ready");
-                ready.add(idx - 1, tasks.get(i));
             }
         }
         return ready;
     }
 
-    public static LinkedList<Task> FCFS() {
+    public static LinkedList<Task> FCFS(ArrayList<Task> tasks) {
         LinkedList<Task> ready = new LinkedList<Task>();
         for (int i = 0; i < tasks.size(); i++) {
             tasks.get(i).setState("ready");
@@ -103,7 +101,7 @@ public class Scheduler {
         return ready;
     }
 
-    public static LinkedList<Task> RR() {
+    public static LinkedList<Task> RR(ArrayList<Task> tasks) {
         LinkedList<Task> ready = new LinkedList<>();
         int level = 1; // to check if a process is completed or not
         while (true) {
@@ -127,7 +125,7 @@ public class Scheduler {
     }
 
     /*
-     * public static LinkedList<Task> HRRN() {
+     * public static LinkedList<Task> HRRN(ArrayList<Task> tasks) {
      * LinkedList<Task> ready = new LinkedList<>();
      * // first column: process index in hash map
      * // second column: response ratio
