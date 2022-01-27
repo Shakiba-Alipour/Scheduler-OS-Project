@@ -38,8 +38,15 @@ public class Scheduler {
 
             br.close();
 
-            // fill the ready queue based on desired algorithm
-            readyQueue = new LinkedList<Task>();
+            // fill the ready queue based on desired algorithm and print it
+            readyQueue = FCFS();
+            printQueue();
+            readyQueue = SJF();
+            printQueue();
+            readyQueue = RR();
+            printQueue();
+            readyQueue = HRRN();
+            printQueue();
 
         } catch (FileNotFoundException ex) {
             System.out.println("File is not found\n" + ex.getMessage());
@@ -48,11 +55,26 @@ public class Scheduler {
         }
     }
 
+    public static void printQueue() {
+        while (!readyQueue.isEmpty()) {
+            // run first process of the ready list
+            Task running = readyQueue.pop();
+            running.setState("running");
+            System.out.println("Running Process: " + running.getName());
+            // print current processes in the ready queue
+            System.out.println("Ready Queue:");
+            for (int idx = 0; idx < readyQueue.size(); idx++) {
+                System.out.print(((Task) readyQueue.get(idx)).getName());
+            }
+        }
+    }
+
     public static LinkedList<Task> SJF() {
         LinkedList<Task> ready = new LinkedList<Task>();
         for (Object key : tasks.keySet()) {
             // if first process enters the ready queue
             if (ready.isEmpty()) {
+                tasks.get(key).setState("ready");
                 ready.add(tasks.get(key));
             } // if ready queue is not empty
             else {
@@ -62,6 +84,7 @@ public class Scheduler {
                         && (i < ready.size()); i++) {
                 }
                 // set process in proper place
+                tasks.get(key).setState("ready");
                 ready.add(i - 1, tasks.get(key));
             }
         }
@@ -71,6 +94,7 @@ public class Scheduler {
     public static LinkedList<Task> FCFS() {
         LinkedList<Task> ready = new LinkedList<Task>();
         for (Object key : tasks.keySet()) {
+            tasks.get(key).setState("ready");
             ready.add(tasks.get(key));
         }
         return ready;
@@ -78,21 +102,22 @@ public class Scheduler {
 
     public static LinkedList<Task> RR() {
         LinkedList<Task> ready = new LinkedList<>();
-        int level = 1; //to check if a process is completed or not
+        int level = 1; // to check if a process is completed or not
         while (true) {
             int completed = 0;
             for (Object key : tasks.keySet()) {
                 if (((Task) tasks.get(key)).getExecutionTime() - level > 0) {
+                    tasks.get(key).setState("ready");
                     ready.add(tasks.get(key));
                 } else {
                     completed++;
                 }
             }
-            //if all of processes are completed
+            // if all of processes are completed
             if (completed == tasks.size()) {
                 break;
             }
-            //if some of processes are not completed yet
+            // if some of processes are not completed yet
             level++;
         }
         return ready;
@@ -100,11 +125,11 @@ public class Scheduler {
 
     public static LinkedList<Task> HRRN() {
         LinkedList<Task> ready = new LinkedList<>();
-        //first column: process index in hash map
-        //second column: response ratio
+        // first column: process index in hash map
+        // second column: response ratio
         int[][] responseRatio = new int[tasks.size()][2];
-        for(int i=0;i<tasks.size();i++){
-            //ratio = (waiting time / execution time) + 1
+        for (int i = 0; i < tasks.size(); i++) {
+            // ratio = (waiting time / execution time) + 1
             int ratio;
         }
         return ready;

@@ -6,7 +6,7 @@ public class Task {
     private final char type; //X or Y or Z
     private int priority;
     private int executionTime; //needed time to completely execute the task
-    private String state; //running, waiting or ready
+    private String state; //running or ready
     private int onCPUTime; //the time that the task is on cpu 
 
     public Task(String name, char type, int executionTime) {
