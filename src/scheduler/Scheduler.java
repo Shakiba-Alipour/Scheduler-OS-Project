@@ -40,13 +40,13 @@ public class Scheduler {
 
             // fill the ready queue based on desired algorithm and print it
             readyQueue = FCFS();
-            printQueue();
+            printQueue("FCFS");
             readyQueue = SJF();
-            printQueue();
+            printQueue("SJF");
             readyQueue = RR();
-            printQueue();
+            printQueue("RR");
             readyQueue = HRRN();
-            printQueue();
+            printQueue("HRRN");
 
         } catch (FileNotFoundException ex) {
             System.out.println("File is not found\n" + ex.getMessage());
@@ -55,7 +55,8 @@ public class Scheduler {
         }
     }
 
-    public static void printQueue() {
+    public static void printQueue(String algorithmName) {
+        System.out.println("Algorithm: " + algorithmName);
         while (!readyQueue.isEmpty()) {
             // run first process of the ready list
             Task running = readyQueue.pop();
