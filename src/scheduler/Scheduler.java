@@ -140,6 +140,7 @@ public class Scheduler {
             System.out.println("w[" + (i + 1) + "] = " + waitingTime[i]);
         }
         System.out.println("-------------");
+        System.out.println("Response Ratio:");
         // find response ratio and fill ready queue
         for (int i = 0; i < tasks.size(); i++) {
             // ratio = (waiting time / execution time) + 1
