@@ -103,7 +103,7 @@ public class Scheduler {
 
     public static LinkedList<Task> RR(ArrayList<Task> tasks) {
         LinkedList<Task> ready = new LinkedList<>();
-        int level = 1; // to check if a process is completed or not
+        int level = 0; // to check if a process is completed or not
         while (true) {
             int completed = 0;
             for (int i = 0; i < tasks.size(); i++) {
@@ -132,17 +132,22 @@ public class Scheduler {
         int sumBurstTime = 0;
         // find waiting time
         waitingTime[0] = 0;
+        System.out.println("Waiting Time:\nw[1] = " + waitingTime[0]);
         for (int i = 1; i < tasks.size(); i++) {
             // arrival time for each process = its index in tasks array list
             sumBurstTime += tasks.get(i - 1).getExecutionTime();
             waitingTime[i] = sumBurstTime - i;
+            System.out.println("w[" + (i + 1) + "] = " + waitingTime[i]);
         }
+        System.out.println("-------------");
         // find response ratio and fill ready queue
         for (int i = 0; i < tasks.size(); i++) {
             // ratio = (waiting time / execution time) + 1
             responseRatio[i] = (waitingTime[i] / tasks.get(i).getExecutionTime()) + 1;
+            System.out.println("r[" + (i + 1) + "] = " + responseRatio[i]);
             ready.add(tasks.get(i));
         }
+        System.out.println("-------------");
         // sort ready queue
         for (int i = 0; i < ready.size() - 1; i++) {
             for (int j = 0; j < ready.size() - i - 1; j++) {
